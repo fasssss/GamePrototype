@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsj37bv1kmao2"]
+
+[ext_resource type="Texture2D" uid="uid://dr1g7my8ihel" path="res://Assets/Sprites/Levels/ground.png" id="1_ahnub"]
+[ext_resource type="Script" path="res://Assets/Scripts/CaveLevel.cs" id="1_tw6xw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_og58e"]
+size = Vector2(3720, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h1fe5"]
+size = Vector2(233, 577)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dcdgu"]
+size = Vector2(328, 588.813)
+
+[node name="CaveLevel" type="Node2D"]
+script = ExtResource("1_tw6xw")
+
+[node name="GroundBody" type="StaticBody2D" parent="."]
+position = Vector2(1, 37)
+
+[node name="GroundCollision" type="CollisionShape2D" parent="GroundBody"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_og58e")
+
+[node name="GroundSprite" type="Sprite2D" parent="GroundBody"]
+texture = ExtResource("1_ahnub")
+
+[node name="LeftBound" type="Area2D" parent="."]
+position = Vector2(-1772, -200)
+
+[node name="LeftCollision" type="CollisionShape2D" parent="LeftBound"]
+position = Vector2(3, -3)
+shape = SubResource("RectangleShape2D_h1fe5")
+
+[node name="RightBound" type="Area2D" parent="."]
+position = Vector2(1684, -271)
+
+[node name="RightCollision" type="CollisionShape2D" parent="RightBound"]
+position = Vector2(0, 3.40625)
+shape = SubResource("RectangleShape2D_dcdgu")

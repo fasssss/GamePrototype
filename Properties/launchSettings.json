@@ -1,0 +1,9 @@
+{
+  "profiles": {
+	"2d_sidescroller": {
+	  "commandName": "Project",
+	  "commandLineArgs": "-e --path \"C:\\Games\\2d_sidescroller\"",
+	  "workingDirectory": "C:\\Games\\2d_sidescroller"
+	}
+  }
+}
