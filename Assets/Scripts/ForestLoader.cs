@@ -20,6 +20,7 @@ namespace d_sidescroller.Assets.Scripts
         {
             var unpackedLevel = ResourceLoader.Load<PackedScene>("res://Assets/Objects/forest_level.tscn").Instantiate<ForestLevel>();
             unpackedLevel.Init(_mediator);
+            unpackedLevel.AddChild(ArcherEnemy.CreateEnemy(2100, -150));
             return unpackedLevel;
         }
     }

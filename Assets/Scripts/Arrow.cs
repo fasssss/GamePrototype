@@ -7,7 +7,7 @@ public partial class Arrow : Weapon
 	public override float Damage { get; set; } = 20f;
 
 
-	public override void Attack()
+	public override void DealDamage()
 	{
 		
 	}

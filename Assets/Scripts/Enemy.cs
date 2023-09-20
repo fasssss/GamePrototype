@@ -9,6 +9,9 @@ namespace d_sidescroller.Assets.Scripts
 {
     public abstract partial class Enemy : CharacterBody2D
     {
-        public abstract float Attack();
+        protected bool IsAgressive { get; set; }
+        public float Hp { get; set; }
+        public float Speed { get; set; }
+        public abstract float Attack<T>(PackedScene weaponRes) where T: Weapon;
     }
 }
