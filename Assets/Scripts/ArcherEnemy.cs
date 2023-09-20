@@ -20,10 +20,12 @@ public partial class ArcherEnemy : Enemy
 		_VisionArea = (Area2D)FindChild("VisionArea");
 		_CloseArea = (Area2D)FindChild("CloseArea");
 		_StrategyExecutor = new ArcherStrategyExecutor();
-		if (_VisionArea.GetOverlappingBodies().FirstOrDefault(node => node.GetType() == typeof(Player)) != null)
+		var playerInVision = _VisionArea.GetOverlappingBodies().FirstOrDefault(node => node.GetType() == typeof(Player));
+
+		if (playerInVision != null)
 		{
 			IsAgressive = true;
-			_StrategyExecutor.SetStrategy(new AttackStrategy());
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)playerInVision, this));
 		}
 
 		_VisionArea.BodyEntered += _VisionArea_BodyEntered;
@@ -42,12 +44,13 @@ public partial class ArcherEnemy : Enemy
 			velocity.Y += gravity * (float)delta;
 		}
 
-		if(IsAgressive)
+		Velocity = velocity;
+
+		if (IsAgressive)
 		{
 			_StrategyExecutor.Execute();
 		}
 
-		Velocity = velocity;
 		MoveAndSlide();
 
 	}
@@ -68,8 +71,12 @@ public partial class ArcherEnemy : Enemy
 
 	private void _VisionArea_BodyEntered(Node2D body)
 	{
+		IsAgressive = true;
 		if(body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new AttackStrategy());
+		{
+			GD.PrintRich(IsAgressive.ToString());
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this));
+		}
 	}
 
 	private void _VisionArea_BodyExited(Node2D body)
@@ -81,7 +88,7 @@ public partial class ArcherEnemy : Enemy
 	private void _CloseArea_BodyExited(Node2D body)
 	{
 		if (body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new AttackStrategy());
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this));
 	}
 
 	private void _CloseArea_BodyEntered(Node2D body)
