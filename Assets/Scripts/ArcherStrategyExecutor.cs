@@ -9,9 +9,9 @@ namespace d_sidescroller.Assets.Scripts
 {
     public class ArcherStrategyExecutor
     {
-        private IArcherEnemyStrategy _strategy;
+        private IEnemyStrategy _strategy;
 
-        public void SetStrategy(IArcherEnemyStrategy strategy)
+        public void SetStrategy(IEnemyStrategy strategy)
         {
             _strategy = strategy;
         }

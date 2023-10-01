@@ -1,11 +1,12 @@
 using d_sidescroller.Assets.Scripts;
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class ArcherEnemy : Enemy
 {
-	private PackedScene _WeaponRes { get; set; }
+	private Dictionary<Type, PackedScene> _WeaponRes { get; set; }
 	private Area2D _VisionArea { get; set; }
 	private Area2D _CloseArea { get; set; }
 	private ArcherStrategyExecutor _StrategyExecutor { get; set; }
@@ -16,7 +17,9 @@ public partial class ArcherEnemy : Enemy
 	{
 		Hp = 100f;
 		Speed = 200f;
-		_WeaponRes = ResourceLoader.Load<PackedScene>("res://Assets/Objects/arrow.res");
+		_WeaponRes = new Dictionary<Type, PackedScene> {
+			{ typeof(Arrow), ResourceLoader.Load<PackedScene>("res://Assets/Objects/arrow.res") } 
+		};
 		_VisionArea = (Area2D)FindChild("VisionArea");
 		_CloseArea = (Area2D)FindChild("CloseArea");
 		_StrategyExecutor = new ArcherStrategyExecutor();
@@ -25,7 +28,7 @@ public partial class ArcherEnemy : Enemy
 		if (playerInVision != null)
 		{
 			IsAgressive = true;
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)playerInVision, this));
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)playerInVision, this, _WeaponRes));
 		}
 
 		_VisionArea.BodyEntered += _VisionArea_BodyEntered;
@@ -55,28 +58,15 @@ public partial class ArcherEnemy : Enemy
 
 	}
 
-	public override float Attack<T>(PackedScene weaponRes)
-	{
-		Weapon weapon = weaponRes.Instantiate<T>();
-
-		if(weapon is Arrow)
-		{
-			AddChild(weapon);
-
-			///////Add code for throwing body
-		}
-
-		return 0;
-	}
-
 	private void _VisionArea_BodyEntered(Node2D body)
 	{
 		IsAgressive = true;
 		if(body.GetType() == typeof(Player))
 		{
 			GD.PrintRich(IsAgressive.ToString());
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this));
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this, _WeaponRes));
 		}
+
 	}
 
 	private void _VisionArea_BodyExited(Node2D body)
@@ -88,7 +78,7 @@ public partial class ArcherEnemy : Enemy
 	private void _CloseArea_BodyExited(Node2D body)
 	{
 		if (body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this));
+			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this, _WeaponRes));
 	}
 
 	private void _CloseArea_BodyEntered(Node2D body)

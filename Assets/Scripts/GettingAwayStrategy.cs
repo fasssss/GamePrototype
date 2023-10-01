@@ -8,7 +8,7 @@ using Godot;
 
 namespace d_sidescroller.Assets.Scripts
 {
-    public class GettingAwayStrategy : IArcherEnemyStrategy
+    public class GettingAwayStrategy : IEnemyStrategy
     {
         private Player _player;
         private ArcherEnemy _self;

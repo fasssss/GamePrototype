@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace d_sidescroller.Assets.Scripts.Interfaces
 {
-    public interface IArcherEnemyStrategy
+    public interface IEnemyStrategy
     {
         public void Strategy();
     }

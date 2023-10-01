@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace d_sidescroller.Assets.Scripts
 {
-    public class GettingCloserStrategy : IArcherEnemyStrategy
+    public class GettingCloserStrategy : IEnemyStrategy
     {
         private Player _player;
         private ArcherEnemy _self;
