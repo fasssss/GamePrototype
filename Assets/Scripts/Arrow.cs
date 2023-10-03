@@ -3,6 +3,7 @@ using System;
 
 public partial class Arrow : Weapon
 {
+	[Export]
 	public override float Damage { get; set; } = 20f;
 
 	public Arrow()

@@ -10,8 +10,11 @@ namespace d_sidescroller.Assets.Scripts
     public abstract partial class Enemy : CharacterBody2D
     {
         protected bool IsAgressive { get; set; }
+        [Export]
         public float Hp { get; set; }
+        [Export]
         public float Speed { get; set; }
+        [Export]
         public float BaseActionSpeed { get; set; }
     }
 }

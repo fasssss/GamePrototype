@@ -3,8 +3,10 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[Export]
+	public float Speed = 300.0f;
+	[Export]
+	public float JumpVelocity = -400.0f;
 	public bool IsInvincible { get; private set; }
 
 	public float Hp
@@ -21,6 +23,7 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
+	[Export]
 	private float _hp = 100f;
 	private Timer _invincibilityTimer;
 	private float _invincibilityTime = 2f;
