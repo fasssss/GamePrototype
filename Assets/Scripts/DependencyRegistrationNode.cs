@@ -13,6 +13,7 @@ namespace d_sidescroller.Assets.Scripts
             services.AddGodotServices();
 			services.AddSingleton(Player);
             services.AddSingleton(TransitionNode);
-		}
+            services.AddSingleton<WeaponInitializer>();
+        }
 	}
 }

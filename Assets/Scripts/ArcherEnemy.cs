@@ -17,6 +17,7 @@ public partial class ArcherEnemy : Enemy
 	{
 		Hp = 100f;
 		Speed = 200f;
+		BaseActionSpeed = 1f;
 		_WeaponRes = new Dictionary<Type, PackedScene> {
 			{ typeof(Arrow), ResourceLoader.Load<PackedScene>("res://Assets/Objects/arrow.res") } 
 		};
@@ -28,7 +29,7 @@ public partial class ArcherEnemy : Enemy
 		if (playerInVision != null)
 		{
 			IsAgressive = true;
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)playerInVision, this, _WeaponRes));
+			_StrategyExecutor.SetStrategy(new ArcherAttackStrategy((Player)playerInVision, this));
 		}
 
 		_VisionArea.BodyEntered += _VisionArea_BodyEntered;
@@ -64,7 +65,7 @@ public partial class ArcherEnemy : Enemy
 		if(body.GetType() == typeof(Player))
 		{
 			GD.PrintRich(IsAgressive.ToString());
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this, _WeaponRes));
+			_StrategyExecutor.SetStrategy(new ArcherAttackStrategy((Player)body, this));
 		}
 
 	}
@@ -72,19 +73,19 @@ public partial class ArcherEnemy : Enemy
 	private void _VisionArea_BodyExited(Node2D body)
 	{
 		if (body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new GettingCloserStrategy((Player)body, this));
+			_StrategyExecutor.SetStrategy(new ArcherGettingCloserStrategy((Player)body, this));
 	}
 
 	private void _CloseArea_BodyExited(Node2D body)
 	{
 		if (body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new AttackStrategy((Player)body, this, _WeaponRes));
+			_StrategyExecutor.SetStrategy(new ArcherAttackStrategy((Player)body, this));
 	}
 
 	private void _CloseArea_BodyEntered(Node2D body)
 	{
 		if (body.GetType() == typeof(Player))
-			_StrategyExecutor.SetStrategy(new GettingAwayStrategy((Player)body, this));
+			_StrategyExecutor.SetStrategy(new ArcherGettingAwayStrategy((Player)body, this));
 	}
 
 	public static ArcherEnemy CreateEnemy(float x, float y)
