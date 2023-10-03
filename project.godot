@@ -22,3 +22,8 @@ DependencyInjectionNode="*res://Assets/Scripts/DependencyInjectionNode.cs"
 [dotnet]
 
 project/assembly_name="2d_sidescroller"
+
+[layer_names]
+
+2d_physics/layer_3="Vision"
+2d_physics/layer_4="Enemy"

@@ -5,10 +5,38 @@ public partial class Player : CharacterBody2D
 {
 	public const float Speed = 300.0f;
 	public const float JumpVelocity = -400.0f;
-	public float Hp = 100f;
+	public bool IsInvincible { get; private set; }
+
+	public float Hp
+	{
+		get { return _hp; }
+		set
+		{
+			_hp = value;
+			this.Modulate = new Color(1, 1, 1, 0.5f);
+			IsInvincible = true;
+			this.CollisionMask = _defaultCollisionMask;
+			this.CollisionLayer = _defaultCollisionLayer;
+			_invincibilityTimer.Start(_invincibilityTime);
+		}
+	}
+
+	private float _hp = 100f;
+	private Timer _invincibilityTimer;
+	private float _invincibilityTime = 2f;
+	private const uint _defaultCollisionLayer = 0b00000000_00000000_00000000_00000101;
+	private const uint _defaultCollisionMask = 0b00000000_00000000_00000000_00000101;
 
 	// Get the gravity from the project settings to be synced with RigidBody nodes.
 	public float gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+
+	public override void _Ready()
+	{
+		IsInvincible = false;
+		_invincibilityTimer = (Timer)FindChild("InvincibilityTimer");
+		_invincibilityTimer.Timeout += InvincibilityEnd;
+		_invincibilityTimer.OneShot = true;
+	}
 
 	public override void _Process(double delta)
 	{
@@ -37,5 +65,13 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	private void InvincibilityEnd()
+	{
+		this.Modulate = new Color(1, 1, 1, 1);
+		this.CollisionMask = 0b00000000_00000000_00000000_00000111;
+		this.CollisionLayer = 0b00000000_00000000_00000000_00000111;
+		IsInvincible = false;
 	}
 }

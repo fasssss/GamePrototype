@@ -29,7 +29,6 @@ namespace d_sidescroller.Assets.Scripts
             Vector2 velocity = _self.Velocity;
             velocity.X = 0;
             _self.Velocity = velocity;
-            _self.FindChild("ActionCooldown");
             if(_timer.TimeLeft <= 0)
             {
                 Attack<Arrow>(_player, _self);

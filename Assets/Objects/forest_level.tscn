@@ -86,8 +86,8 @@ region_enabled = true
 region_rect = Rect2(0, 0, 12000, 295)
 
 [node name="Ground" type="StaticBody2D" parent="."]
-collision_layer = 5
-collision_mask = 5
+collision_layer = 11
+collision_mask = 11
 
 [node name="CollisionGround" type="CollisionShape2D" parent="Ground"]
 position = Vector2(509, 55)
